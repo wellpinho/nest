@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConceptsManualModule } from 'src/concepts-manual/concepts-manuel.module';
-import { ConceptsAutomaticModule } from 'src/concepts-automatic/concepts-automatic.module';
+import { RecadosModule } from 'src/recados/recados.module';
 
 /*
  ** Todo módulo novo deve ser importado aqui no módulo main!
@@ -11,7 +10,7 @@ import { ConceptsAutomaticModule } from 'src/concepts-automatic/concepts-automat
  */
 
 @Module({
-  imports: [ConceptsManualModule, ConceptsAutomaticModule],
+  imports: [RecadosModule],
   controllers: [AppController], // é para controllar requests e responses
   providers: [AppService], // injeção de depedência
   exports: [], // podemos exportar coisas importadas no imports acima

@@ -1,0 +1,25 @@
+@base = http://localhost:4000
+
+# Recados module
+
+### lista todos os recados paginado
+GET {{base}}/recados
+
+### lista o recado pelo id
+GET {{base}}/recados/2
+
+### cria um novo recado
+POST {{base}}/recados
+Content-Type: "application/json"
+
+{
+  "texto": "Feliz aniversário",
+  "de": "Esposo",
+  "para": "Esposa",
+}
+
+PATCH {{base}}/recados/1
+
+#### deleta um recado
+
+DELETE {{base}}/recados/1
