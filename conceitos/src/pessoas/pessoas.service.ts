@@ -31,11 +31,21 @@ export class PessoasService {
   }
 
   async findOne(id: number) {
-    return await this.pessoaRepository.findOneBy({ id });
+    const pessoa = await this.pessoaRepository.findOneBy({ id });
+
+    if (!pessoa) return NotFoundError('Pessoa não encontrada');
+
+    return pessoa;
   }
 
-  update(id: number, updatePessoaDto: UpdatePessoaDto) {
-    return `This action updates a #${id} pessoa`;
+  async update(id: number, updatePessoaDto: UpdatePessoaDto) {
+    const pessoa = await this.pessoaRepository.preload({
+      id,
+      ...updatePessoaDto,
+    });
+
+    if (!pessoa) return NotFoundError('Pessoa não encontrada');
+    return await this.pessoaRepository.save(pessoa);
   }
 
   async remove(id: number) {

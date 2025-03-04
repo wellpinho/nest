@@ -32,8 +32,11 @@ export class PessoasController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePessoaDto: UpdatePessoaDto) {
-    return this.pessoasService.update(+id, updatePessoaDto);
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updatePessoaDto: UpdatePessoaDto,
+  ) {
+    return await this.pessoasService.update(+id, updatePessoaDto);
   }
 
   @Delete(':id')
