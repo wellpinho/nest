@@ -21,8 +21,8 @@ export class PessoasController {
   }
 
   @Get()
-  findAll() {
-    return this.pessoasService.findAll();
+  async findAll() {
+    return await this.pessoasService.findAll();
   }
 
   @Get(':id')

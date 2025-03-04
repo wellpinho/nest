@@ -15,7 +15,7 @@ export class PessoaEntity {
   @Column({ length: 100 })
   nome: string;
 
-  @Column()
+  @Column({ unique: true })
   @IsEmail()
   email: string;
 

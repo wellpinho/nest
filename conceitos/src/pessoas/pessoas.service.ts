@@ -19,8 +19,26 @@ export class PessoasService {
 
     if (pessoaExiste) return BadRequestError('Pessoa já cadastrada');
 
+    // TODO: create salva em memória, não no banco de dados
     const pessoa = this.pessoaRepository.create(createPessoaDto);
 
+    // TODO: apenas no save que o dado é salvo no banco de dados
     return await this.pessoaRepository.save(pessoa);
+  }
+
+  async findAll() {
+    return await this.pessoaRepository.find();
+  }
+
+  findOne(id: number) {
+    return `This action returns a #${id} pessoa`;
+  }
+
+  update(id: number, updatePessoaDto: UpdatePessoaDto) {
+    return `This action updates a #${id} pessoa`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} pessoa`;
   }
 }
