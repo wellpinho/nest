@@ -1,7 +1,10 @@
+import { PessoaEntity } from 'src/pessoas/entities/pessoa.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -14,11 +17,15 @@ export class RecadoEntity {
   @Column({ type: 'varchar', length: 255 })
   texto: string;
 
-  @Column({ type: 'varchar', length: 50 })
-  de: string;
+  // TODO: Muitos recados tem relação com uma pessoa. Por isso Many to One
+  @ManyToOne(() => PessoaEntity)
+  @JoinColumn({ name: 'de' }) // especifica a cluna que faz a relação
+  de: PessoaEntity;
 
-  @Column({ type: 'varchar', length: 50 })
-  para: string;
+  // TODO: Muitos recados tem relação com uma pessoa. Por isso Many to One
+  @ManyToOne(() => PessoaEntity)
+  @JoinColumn({ name: 'para' }) // especifica a cluna que faz a relação
+  para: PessoaEntity;
 
   @Column({ type: 'boolean', default: false })
   lido: boolean;
