@@ -4,7 +4,7 @@ import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PessoaEntity } from './entities/pessoa.entity';
 import { Repository } from 'typeorm';
-import { BadRequestError } from 'src/errors';
+import { BadRequestError, NotFoundError } from 'src/errors';
 
 @Injectable()
 export class PessoasService {
@@ -27,18 +27,22 @@ export class PessoasService {
   }
 
   async findAll() {
-    return await this.pessoaRepository.find();
+    return await this.pessoaRepository.find({ order: { id: 'desc' } });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pessoa`;
+  async findOne(id: number) {
+    return await this.pessoaRepository.findOneBy({ id });
   }
 
   update(id: number, updatePessoaDto: UpdatePessoaDto) {
     return `This action updates a #${id} pessoa`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pessoa`;
+  async remove(id: number) {
+    const pessoa = await this.pessoaRepository.findOneBy({ id });
+
+    if (!pessoa) return NotFoundError('Pessoa não encontrada');
+
+    return await this.pessoaRepository.remove(pessoa);
   }
 }
