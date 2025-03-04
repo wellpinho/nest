@@ -3,44 +3,54 @@ import { RecadoEntity } from './entities/Recado.entity';
 import { NotFoundError } from 'src/errors';
 import { CreateRecadoDto } from './dto/create-recado.dto';
 import { UpdateRecadoDto } from './dto/update-recado.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class RecadosService {
-  private lastId = 1;
-  private recados: RecadoEntity[] = [];
+  constructor(
+    @InjectRepository(RecadoEntity) // TODO: passa a entidade
+    private readonly recadoRepository: Repository<RecadoEntity>,
+  ) {}
 
-  findAll() {
-    return this.recados;
+  async findAll() {
+    const recados = await this.recadoRepository.find();
+
+    return recados;
   }
 
-  create(createRecadoDto: CreateRecadoDto) {
-    this.lastId++;
+  async create(createRecadoDto: CreateRecadoDto) {
+    try {
+      const recado = this.recadoRepository.create({
+        data: new Date(),
+        lido: false,
+        ...createRecadoDto,
+      });
 
-    this.recados.push({
-      id: this.lastId,
-      data: new Date(),
-      lido: false,
-      ...createRecadoDto,
-    });
-
-    return createRecadoDto;
+      return this.recadoRepository.save(recado);
+    } catch (error) {
+      return error;
+    }
   }
 
-  createMany(createRecadoDtos: CreateRecadoDto[]) {
-    createRecadoDtos.map((dto) =>
-      this.recados.push({
-        id: this.lastId++,
+  async createMany(createRecadoDtos: CreateRecadoDto[]) {
+    createRecadoDtos.map(async (dto) => {
+      const recado = this.recadoRepository.create({
         data: new Date(),
         lido: false,
         ...dto,
-      }),
-    );
+      });
 
-    return this.recados;
+      await this.recadoRepository.save(recado);
+    });
+
+    return 'Recados criados com sucesso!';
   }
 
-  findOne(id: string) {
-    const recado = this.recados.find((recado) => recado.id === Number(id));
+  async findOne(id: number) {
+    const recado = await this.recadoRepository.findOne({
+      where: { id },
+    });
 
     if (!recado) {
       return NotFoundError('Recado não encontrado');
@@ -49,32 +59,31 @@ export class RecadosService {
     return recado;
   }
 
-  update(id: string, updateRecadoDto: UpdateRecadoDto) {
-    console.log(id);
-    const recadoExistente = this.recados.find((item) => item.id === Number(id));
+  async update(id: number, updateRecadoDto: UpdateRecadoDto) {
+    const partialUpdateDto = {
+      lido: updateRecadoDto?.lido,
+      texto: updateRecadoDto?.texto,
+    };
 
-    if (!recadoExistente) {
+    const recado = await this.recadoRepository.preload({
+      id,
+      ...partialUpdateDto,
+    });
+
+    if (!recado) {
       return NotFoundError('Recado não existe!');
     }
 
-    if (recadoExistente) {
-      Object.assign(recadoExistente, updateRecadoDto);
-    }
-
-    return recadoExistente;
+    return await this.recadoRepository.save(recado);
   }
 
-  remove(id: string) {
-    const recadoExistenteIndex = this.recados.findIndex(
-      (item) => item.id === Number(id),
-    );
+  async remove(id: number) {
+    const recado = await this.recadoRepository.findOneBy({ id });
 
-    if (recadoExistenteIndex === -1) {
+    if (!recado) {
       return NotFoundError('O Recado selecionado não existe!');
     }
 
-    this.recados.splice(recadoExistenteIndex, 1);
-
-    return this.recados;
+    return await this.recadoRepository.remove(recado);
   }
 }

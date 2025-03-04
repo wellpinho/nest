@@ -2,6 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RecadosModule } from 'src/recados/recados.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import * as path from 'path';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 /*
  ** Todo módulo novo deve ser importado aqui no módulo main!
@@ -10,7 +14,19 @@ import { RecadosModule } from 'src/recados/recados.module';
  */
 
 @Module({
-  imports: [RecadosModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: 'postgres',
+      database: 'nest',
+      autoLoadEntities: true, // TODO: carrega as entidades sem preicsar especifica-las
+      synchronize: true, // TODO: sincroniza com o banco local. Não usar em produção!
+    }),
+    RecadosModule,
+  ],
   controllers: [AppController], // é para controllar requests e responses
   providers: [AppService], // injeção de depedência
   exports: [], // podemos exportar coisas importadas no imports acima

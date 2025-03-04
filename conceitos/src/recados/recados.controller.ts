@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -18,34 +19,37 @@ export class RecadosController {
   constructor(private readonly recadosService: RecadosService) {}
 
   @Get()
-  findAll(@Query() pagination: any) {
+  async findAll(@Query() pagination: any) {
     const { limit = 10, offset = 0 } = pagination;
 
     // return `Retorna todos os recados paginados com limite: ${limit} e offset: ${offset}`;
-    return this.recadosService.findAll();
+    return await this.recadosService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.recadosService.findOne(id);
   }
 
   @Post()
-  create(@Body() createRecadoDto: CreateRecadoDto | CreateRecadoDto[]) {
+  async create(@Body() createRecadoDto: CreateRecadoDto | CreateRecadoDto[]) {
     if (isArray(createRecadoDto)) {
-      return this.recadosService.createMany(createRecadoDto);
+      return await this.recadosService.createMany(createRecadoDto);
     }
 
-    return this.recadosService.create(createRecadoDto);
+    return await this.recadosService.create(createRecadoDto);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRecadoDto: UpdateRecadoDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateRecadoDto: UpdateRecadoDto,
+  ) {
     return this.recadosService.update(id, updateRecadoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.recadosService.remove(id);
   }
 }

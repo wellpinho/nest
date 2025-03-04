@@ -10,5 +10,8 @@ export class UpdateRecadoDto extends PartialType(CreateRecadoDto) {
   de: string;
 
   @IsOptional()
+  lido: boolean;
+
+  @IsOptional()
   para: string;
 }
