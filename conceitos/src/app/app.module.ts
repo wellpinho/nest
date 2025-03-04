@@ -3,9 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RecadosModule } from 'src/recados/recados.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-import * as path from 'path';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PessoasModule } from 'src/pessoas/pessoas.module';
 
 /*
  ** Todo módulo novo deve ser importado aqui no módulo main!
@@ -26,6 +24,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       synchronize: true, // TODO: sincroniza com o banco local. Não usar em produção!
     }),
     RecadosModule,
+    PessoasModule,
   ],
   controllers: [AppController], // é para controllar requests e responses
   providers: [AppService], // injeção de depedência
