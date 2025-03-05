@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { PessoasService } from './pessoas.service';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
@@ -22,8 +23,11 @@ export class PessoasController {
   }
 
   @Get()
-  async findAll() {
-    return await this.pessoasService.findAll();
+  async findAll(
+    @Query('offset') offset: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
+    return await this.pessoasService.findAll(offset, limit);
   }
 
   @Get(':id')

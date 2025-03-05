@@ -18,12 +18,12 @@ export class RecadoEntity {
   texto: string;
 
   // TODO: Muitos recados tem relação com uma pessoa. Por isso Many to One
-  @ManyToOne(() => PessoaEntity)
+  @ManyToOne(() => PessoaEntity, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }) // TODO: ao deletar um registro do tipo pessoa, deleta todos os recados relacionados
   @JoinColumn({ name: 'de' }) // especifica a cluna que faz a relação
   de: PessoaEntity;
 
   // TODO: Muitos recados tem relação com uma pessoa. Por isso Many to One
-  @ManyToOne(() => PessoaEntity)
+  @ManyToOne(() => PessoaEntity, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }) // TODO: ao deletar um registro do tipo pessoa, deleta todos os recados relacionados
   @JoinColumn({ name: 'para' }) // especifica a cluna que faz a relação
   para: PessoaEntity;
 

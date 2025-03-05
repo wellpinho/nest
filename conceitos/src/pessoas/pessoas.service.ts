@@ -26,8 +26,20 @@ export class PessoasService {
     return await this.pessoaRepository.save(pessoa);
   }
 
-  async findAll() {
-    return await this.pessoaRepository.find({ order: { id: 'desc' } });
+  async findAll(offset: number = 1, limit: number = 10) {
+    const [pessoas, total] = await this.pessoaRepository.findAndCount({
+      order: { id: 'desc' },
+      select: ['id', 'nome', 'email'],
+      skip: (offset - 1) * limit,
+      take: limit,
+    });
+
+    return {
+      data: pessoas,
+      total,
+      offset,
+      lastPage: Math.ceil(total / limit),
+    };
   }
 
   async findOne(id: number) {
