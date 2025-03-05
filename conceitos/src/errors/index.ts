@@ -1,4 +1,8 @@
-import { NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  NotFoundException,
+  BadRequestException,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 /*
  ** Função que lança um erro de Recurso não encontrado
@@ -12,4 +16,8 @@ export const NotFoundError = (message: string) => {
 
 export const BadRequestError = (message: string) => {
   throw new BadRequestException(message);
+};
+
+export const UnauthorizedRequestError = (message: string) => {
+  throw new UnauthorizedException(message);
 };

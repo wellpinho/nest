@@ -7,14 +7,16 @@ import {
   Param,
   Delete,
   Query,
-  // UseInterceptors,
+  UseInterceptors,
 } from '@nestjs/common';
 import { PessoasService } from './pessoas.service';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
+import { InterceptorHandleToken } from 'src/common/interceptors/HandleToken.interceptor';
 // import { InterceptorHandleError } from 'src/common/interceptors/LogError.interceptor';
 
 @Controller('pessoas')
+@UseInterceptors(InterceptorHandleToken)
 export class PessoasController {
   constructor(private readonly pessoasService: PessoasService) {}
   @Post()
