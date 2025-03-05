@@ -15,10 +15,21 @@ export class RecadosService {
     private readonly pessoasService: PessoasService,
   ) {}
 
-  async findAll() {
-    const recados = await this.recadoRepository.find();
+  async findAll(offset: number = 1, limit: number = 10) {
+    const [recados, total] = await this.recadoRepository.findAndCount({
+      relations: ['de', 'para'],
+      order: { id: 'DESC' },
+      select: { de: { id: true, nome: true }, para: { id: true, nome: true } },
+      skip: (offset - 1) * limit,
+      take: limit,
+    });
 
-    return recados;
+    return {
+      data: recados,
+      total,
+      offset,
+      lastPage: Math.ceil(total / limit),
+    };
   }
 
   async create(createRecadoDto: CreateRecadoDto) {

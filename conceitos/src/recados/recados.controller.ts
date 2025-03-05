@@ -19,11 +19,11 @@ export class RecadosController {
   constructor(private readonly recadosService: RecadosService) {}
 
   @Get()
-  async findAll(@Query() pagination: any) {
-    const { limit = 10, offset = 0 } = pagination;
-
-    // return `Retorna todos os recados paginados com limite: ${limit} e offset: ${offset}`;
-    return await this.recadosService.findAll();
+  async findAll(
+    @Query('offset') offset: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
+    return await this.recadosService.findAll(offset, limit);
   }
 
   @Get(':id')
