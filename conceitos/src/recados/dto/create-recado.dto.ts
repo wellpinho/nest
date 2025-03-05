@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsPositive, IsString } from 'class-validator';
 
 export class CreateRecadoDto {
   @IsString({
@@ -6,6 +6,14 @@ export class CreateRecadoDto {
   })
   @IsNotEmpty({ message: 'O texto é obrigatório' })
   readonly texto: string;
+
+  @IsPositive()
+  @IsNotEmpty({ message: 'O campo "deId" é obrigatório' })
+  deId: number;
+
+  @IsPositive()
+  @IsNotEmpty({ message: 'O campo "paraId" é obrigatório' })
+  paraId: number;
 
   // @IsString({
   //   message: 'O campo "de" deve ser uma string',
