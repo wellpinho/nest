@@ -10,6 +10,7 @@ import { RecadosModule } from 'src/recados/recados.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PessoasModule } from 'src/pessoas/pessoas.module';
 import { SimpleMiddleware } from 'src/middlewares/simpleMiddleware';
+import { ConfigModule } from '@nestjs/config';
 
 /*
  ** Todo módulo novo deve ser importado aqui no módulo main!
@@ -19,15 +20,16 @@ import { SimpleMiddleware } from 'src/middlewares/simpleMiddleware';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'nest',
-      autoLoadEntities: true, // TODO: carrega as entidades sem preicsar especifica-las
-      synchronize: true, // TODO: sincroniza com o banco local. Não usar em produção!
+      type: process.env.DB_TYPE as 'postgres',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      autoLoadEntities: Boolean(process.env.DB_AUTOLOADENTITIES), // TODO: carrega as entidades sem preicsar especifica-las
+      synchronize: Boolean(process.env.DB_SYNCHRONIZE), // TODO: sincroniza com o banco local. Não usar em produção!
     }),
     RecadosModule,
     PessoasModule,
