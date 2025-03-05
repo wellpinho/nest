@@ -1,6 +1,7 @@
-import { CallHandler, ExecutionContext } from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 
+@Injectable()
 export class InterceptorAddHeader {
   intercept(
     context: ExecutionContext, // TODO: aqui tem o contexto da requisição

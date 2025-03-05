@@ -1,6 +1,7 @@
-import { CallHandler, ExecutionContext } from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable } from '@nestjs/common';
 import { tap } from 'rxjs';
 
+@Injectable()
 export class InterceptorTimeConection {
   async intercept(
     context: ExecutionContext, // TODO: aqui tem o contexto da requisição

@@ -1,8 +1,9 @@
-import { CallHandler, ExecutionContext } from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable } from '@nestjs/common';
 import { catchError, throwError } from 'rxjs';
 import { BadRequestError } from 'src/errors';
 import { uniqueGenerate } from 'src/shared/utils/uuidGenerator';
 
+@Injectable()
 export class InterceptorHandleError {
   async intercept(
     context: ExecutionContext, // TODO: aqui tem o contexto da requisição
