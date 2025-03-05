@@ -7,12 +7,12 @@ import {
   Param,
   Delete,
   Query,
-  UseInterceptors,
+  // UseInterceptors,
 } from '@nestjs/common';
 import { PessoasService } from './pessoas.service';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
-import { InterceptorHandleError } from 'src/common/interceptors/LogError.interceptor';
+// import { InterceptorHandleError } from 'src/common/interceptors/LogError.interceptor';
 
 @Controller('pessoas')
 export class PessoasController {
@@ -31,7 +31,7 @@ export class PessoasController {
   }
 
   @Get(':id')
-  @UseInterceptors(InterceptorHandleError)
+  // @UseInterceptors(InterceptorHandleError)
   async findOne(@Param('id') id: number) {
     return await this.pessoasService.findOne(id);
   }
