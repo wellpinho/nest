@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { PipeParseIntId } from './common/pipes/ParseIntId.pipe';
 
 /*
  ** Finalidade do arquivo main
@@ -16,6 +17,7 @@ async function startApp() {
       transform:
         false /* TODO: transform transforma os dados dos params para o tipo correto no Dto*/,
     }),
+    new PipeParseIntId(), // TODO: PipeParseIntId é um pipe customizado e esta de forma global agetando todas as rotas que usam ID
   );
   await app.listen(process.env.PORT ?? 4000);
 }

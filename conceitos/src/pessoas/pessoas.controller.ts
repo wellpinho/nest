@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  ParseIntPipe,
   Query,
 } from '@nestjs/common';
 import { PessoasService } from './pessoas.service';
@@ -16,7 +15,6 @@ import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 @Controller('pessoas')
 export class PessoasController {
   constructor(private readonly pessoasService: PessoasService) {}
-
   @Post()
   async create(@Body() createPessoaDto: CreatePessoaDto) {
     return await this.pessoasService.create(createPessoaDto);
@@ -31,13 +29,13 @@ export class PessoasController {
   }
 
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id') id: number) {
     return await this.pessoasService.findOne(id);
   }
 
   @Patch(':id')
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: number,
     @Body() updatePessoaDto: UpdatePessoaDto,
   ) {
     return await this.pessoasService.update(+id, updatePessoaDto);
