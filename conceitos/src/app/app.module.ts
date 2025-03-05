@@ -11,6 +11,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PessoasModule } from 'src/pessoas/pessoas.module';
 import { SimpleMiddleware } from 'src/middlewares/simpleMiddleware';
 import { ConfigModule } from '@nestjs/config';
+import * as Joi from '@hapi/joi';
 
 /*
  ** Todo módulo novo deve ser importado aqui no módulo main!
@@ -22,6 +23,16 @@ import { ConfigModule } from '@nestjs/config';
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.env'],
+      validationSchema: Joi.object({
+        DB_TYPE: Joi.required(),
+        DB_HOST: Joi.required(),
+        DB_PORT: Joi.number().default(5432),
+        DB_USERNAME: Joi.required(),
+        DB_PASSWORD: Joi.required(),
+        DB_DATABASE: Joi.required(),
+        DB_AUTOLOADENTITIES: Joi.number().min(0).max(1).default(0),
+        DB_SYNCHRONIZE: Joi.number().min(0).max(1).default(0),
+      }),
     }),
     TypeOrmModule.forRoot({
       type: process.env.DB_TYPE as 'postgres',
