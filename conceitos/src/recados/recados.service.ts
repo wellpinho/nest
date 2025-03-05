@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { RecadoEntity } from './entities/Recado.entity';
-import { NotFoundError } from 'src/errors';
+import { BadRequestError, NotFoundError } from 'src/errors';
 import { CreateRecadoDto } from './dto/create-recado.dto';
 import { UpdateRecadoDto } from './dto/update-recado.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -86,19 +86,13 @@ export class RecadosService {
   }
 
   async update(id: number, updateRecadoDto: UpdateRecadoDto) {
-    const partialUpdateDto = {
-      lido: updateRecadoDto?.lido,
-      texto: updateRecadoDto?.texto,
-    };
+    const recado = await this.findOne(id);
 
-    const recado = await this.recadoRepository.preload({
-      id,
-      ...partialUpdateDto,
-    });
-
-    if (!recado) {
-      return NotFoundError('Recado não existe!');
+    if (recado.lido === true) {
+      return BadRequestError('Recado já foi lido! E não pode ser editado');
     }
+
+    recado.texto = updateRecadoDto.texto || recado.texto;
 
     return await this.recadoRepository.save(recado);
   }
