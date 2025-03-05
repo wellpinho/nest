@@ -13,12 +13,14 @@ import { RecadosService } from './recados.service';
 import { CreateRecadoDto } from './dto/create-recado.dto';
 import { UpdateRecadoDto } from './dto/update-recado.dto';
 import { isArray } from 'class-validator';
+// import { InterceptorHandleDataResponse } from 'src/common/interceptors/HandleDataResponse.interceptor';
 // import { InterceptorAddHeader } from 'src/common/interceptors/addHeader.interceptor';
 // import { InterceptorTimeConection } from 'src/common/interceptors/TimeConection.interceptor';
 // import { InterceptorSimpleCache } from 'src/common/interceptors/SimpleCache.interceptor';
 
 @Controller('recados')
 // @UseInterceptors(InterceptorSimpleCache)
+// @UseInterceptors(InterceptorHandleDataResponse)
 export class RecadosController {
   constructor(private readonly recadosService: RecadosService) {}
 
