@@ -13,6 +13,7 @@ import { SimpleMiddleware } from 'src/middlewares/simpleMiddleware';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import { AuthModule } from 'src/auth/auth.module';
+import { UsersModule } from '@/users/infrastructure/users.module';
 
 /*
  ** Todo módulo novo deve ser importado aqui no módulo main!
@@ -48,6 +49,7 @@ import { AuthModule } from 'src/auth/auth.module';
     RecadosModule,
     PessoasModule,
     AuthModule,
+    UsersModule,
   ],
   controllers: [AppController], // é para controllar requests e responses
   providers: [AppService], // injeção de depedência
