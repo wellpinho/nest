@@ -1,6 +1,9 @@
 // TODO: aqui usa typescript puro sem nenhum uso de libs
 
+import { generateUniqueId } from '@/shared/utils/generateUniqueId';
+
 export type UserProps = {
+  id?: string;
   name: string;
   email: string;
   password: string;
@@ -10,6 +13,7 @@ export type UserProps = {
 export class UserEntity {
   constructor(public readonly props: UserProps) {
     this.props.createdAt = this.props.createdAt ?? new Date();
+    this.props.id = generateUniqueId();
   }
 
   get name() {

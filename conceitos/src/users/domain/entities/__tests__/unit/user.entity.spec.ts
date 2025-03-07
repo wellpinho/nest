@@ -38,4 +38,9 @@ describe('UserEntity', () => {
     expect(sut.props.createdAt).toBeDefined();
     expect(sut.props.createdAt).toBeInstanceOf(Date);
   });
+
+  it('Getter of id field', () => {
+    expect(sut.props.id).toBeDefined();
+    expect(typeof sut.props.id).toStrictEqual('string');
+  });
 });
